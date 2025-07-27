@@ -3,6 +3,8 @@ Obsidian Furigana
 
 Add a command to mark `<ruby>selected text...<rt></rt></ruby>` for selected text.
 
+Adds a second command to copy the "plain" text to clipboard (by removing any `ruby` and `rt` tags, only preserving `ruby` sections).
+
 **TODO**: auto convert kanji to higakana
 
 ## Screenshot and usage

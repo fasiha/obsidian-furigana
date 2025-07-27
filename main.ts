@@ -21,6 +21,26 @@ const addRubyTag = (editor: Editor, selected: string) => {
 	editor.setCursor({ line, ch: ch - tail.length });
 };
 
+const copyWithoutRuby = (editor: Editor) => {
+	let text = editor.getSelection();
+
+	// If no text is selected, use the current line
+	if (!text || text.trim() === "") {
+		const cursor = editor.getCursor();
+		text = editor.getLine(cursor.line);
+	}
+
+	text = text.replace(/<rt>.*?<\/rt>/g, "");
+	text = text.replace(/<rp>.*?<\/rp>/g, "");
+	text = text.replace(/<\/?ruby>/g, "");
+
+	navigator.clipboard
+		.writeText(text)
+		.catch((err) => {
+			console.error("Failed to copy text to clipboard:", err);
+		});
+};
+
 export default class AliasPlugin extends Plugin {
 	async onload() {
 		this.registerEvent(
@@ -50,6 +70,21 @@ export default class AliasPlugin extends Plugin {
 				}
 				return true;
 			}
+		});
+		this.addCommand({
+			id: "copy-without-ruby",
+			name: "Copy text or line without <ruby> tags to clipboard",
+			checkCallback: (checking: boolean) => {
+				let view = this.app.workspace.getActiveViewOfType(MarkdownView);
+				if (!view) {
+					return false;
+				}
+				const editor = view.editor;
+				if (!checking) {
+					copyWithoutRuby(editor);
+				}
+				return true;
+			},
 		});
 	}
 
