@@ -58,6 +58,7 @@ export default class AliasPlugin extends Plugin {
 		this.addCommand({
 			id: 'add-ruby',
 			name: 'Add <ruby> tag for selected text',
+			icon: 'gem',
 			checkCallback: (checking: boolean) => {
 				let view = this.app.workspace.getActiveViewOfType(MarkdownView);
 				if (!view) {
@@ -74,6 +75,7 @@ export default class AliasPlugin extends Plugin {
 		this.addCommand({
 			id: "copy-without-ruby",
 			name: "Copy text or line without <ruby> tags to clipboard",
+			icon: 'scissors-line-dashed',
 			checkCallback: (checking: boolean) => {
 				let view = this.app.workspace.getActiveViewOfType(MarkdownView);
 				if (!view) {
